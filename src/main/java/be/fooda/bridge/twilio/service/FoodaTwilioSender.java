@@ -4,7 +4,9 @@ import be.fooda.bridge.twilio.config.TwilioConfig;
 import com.twilio.http.TwilioRestClient;
 import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.type.PhoneNumber;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FoodaTwilioSender {
 
     private final TwilioRestClient client;
