@@ -16,9 +16,17 @@ public class FoodaSmsController {
     private final FoodaTwilioSender sender;
 
     @PostMapping("{to}")
-    public ResponseEntity<String> sendSms(@PathVariable String to, @RequestBody String message) {
+    public ResponseEntity<String> sendSms(@PathVariable String to, @RequestParam String message) {
 
-        sender.send(to, message);
+        String phoneNumber = "";
+
+        if (!to.startsWith("32") || !to.startsWith("4") || !to.startsWith("+32"))
+            return ResponseEntity.badRequest().body("Phone number is not valid");
+
+        if (to.startsWith("32")) phoneNumber = "+" + to;
+        else if (to.startsWith("4")) phoneNumber = "+32" + to;
+
+        sender.send(phoneNumber, message);
 
         return ResponseEntity.ok("Sms is sent to " + to);
     }
