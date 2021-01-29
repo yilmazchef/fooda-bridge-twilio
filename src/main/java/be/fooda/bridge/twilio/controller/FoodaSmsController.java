@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @RestController
 @RequestMapping("sms")
 @Slf4j
@@ -36,14 +33,8 @@ public class FoodaSmsController {
     @PostMapping("/send")
     public ResponseEntity sendMessages(@RequestBody MessageRequest messageRequest) {
 
-        String regex = "\\+(9[976]\\d|8[987530]\\d|6[987]\\d|5[90]\\d|42\\d|3[875]\\d|2[98654321]\\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\\d{1,14}$\n";
-        Pattern pattern = Pattern.compile(regex);
-
         for (String number : messageRequest.getNumbers()) {
-            if (number.startsWith("+")) number = number.replace("+", "00");
-            Matcher matcher = pattern.matcher(number);
-
-            if (matcher.matches()) {
+            if (!number.isEmpty() && number.length() == "003246XXXXXXX".length()) {
                 Message message = Message.creator(
                         new PhoneNumber(number),
                         new PhoneNumber(twilioPhoneNumber),
