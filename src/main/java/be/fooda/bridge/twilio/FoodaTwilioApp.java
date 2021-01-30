@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableSwagger2
 @Import({
         SwaggerConfig.class,
