@@ -1,7 +1,9 @@
 package be.fooda.bridge.twilio.controller;
 
-import be.fooda.bridge.twilio.model.MessageRequest;
-import be.fooda.bridge.twilio.model.http.HttpFailureMessages;
+import be.fooda.bridge.twilio.model.request.MessageRequest;
+import be.fooda.bridge.twilio.model.message.HttpFailureMessages;
+import be.fooda.bridge.twilio.model.response.MessageResponse;
+import be.fooda.bridge.twilio.model.response.MessageStatus;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -41,7 +43,7 @@ public class FoodaSmsController {
                         messageRequest.getMessage()).create();
 
                 log.trace("Message is send to : " + number);
-                return ResponseEntity.status(HttpStatus.OK).body(message);
+                return ResponseEntity.status(HttpStatus.OK).body(toResponse(message));
 
             } else {
                 log.error("Phone number format of " + number + " is not valid!");
@@ -51,5 +53,19 @@ public class FoodaSmsController {
 
         log.error("Unexpected error occurred..");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpFailureMessages.UNEXPECTED_ERROR_OCCURRED);
+    }
+
+    private MessageResponse toResponse(Message message) {
+        MessageResponse response = new MessageResponse();
+        response.setBody(message.getBody());
+        response.setAccountSid(message.getAccountSid());
+        response.setDateCreated(message.getDateCreated());
+        response.setDateSent(message.getDateSent());
+        response.setStatus(MessageStatus.valueOf(message.getStatus().name()));
+        response.setTo(message.getTo());
+        response.setUri(message.getUri());
+        response.setMessagingServiceSid(message.getMessagingServiceSid());
+
+        return response;
     }
 }

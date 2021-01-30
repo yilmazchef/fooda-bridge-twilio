@@ -1,4 +1,4 @@
-package be.fooda.bridge.twilio.model;
+package be.fooda.bridge.twilio.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

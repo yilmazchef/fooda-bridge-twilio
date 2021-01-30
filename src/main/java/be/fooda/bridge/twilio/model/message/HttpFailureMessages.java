@@ -1,4 +1,4 @@
-package be.fooda.bridge.twilio.model.http;
+package be.fooda.bridge.twilio.model.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
